@@ -11,8 +11,8 @@ PREFERENCES: 1) use d4 as little as possible 2) use high coefficient results as 
 
 STUFF TO COMPLETE:
 -Integer check
--Combine messages into one line
--Filter results based on preferences (try to ignore d4, high coefficient wins, least amount of dice wins)
+-Combine messages into one line or window
+-Filter results based on preferences (see abova)
 */
 
 
@@ -20,22 +20,15 @@ STUFF TO COMPLETE:
 var tot = prompt("How many elements does your list have?");
 console.log("Your list has " + tot + " items.");
 
-// Greatest common denominator function we'll need in Case 4
-
-
-
 /*
 Checking user input integer based on increasingly difficult cases ---
 
 1) Solvable with half a die, unique cases with if-checks
 2) Solvable with exactly one kind of die (1d6, 2d6, etc.) 
    INCLUDES MERGED CASE of "Solvable with exactly one die"
-3) Solvable with product arithmeticals of dice (d44, d666, d486, etc.
+3) Solvable with product arithmeticals of 3a) two or 3b) three dice (d44, d666, d486, etc.
    INCLUDES MERGED CASE of "Solvable with product arithmeticals of exactly one kind of die"
 4) Solvable with a combination of dice with different coefficients.
-
-
-
 */
 
 
@@ -46,7 +39,7 @@ if (tot == 2) console.log("1) Flip a coin or use d6 - 1-3 is your first choice, 
 if (tot == 3) console.log("1) Roll a d6 - 1,2 is the first, 3,4 is the second, 5,6 is the third option on the list");
 if (tot == 5) console.log("1) Roll a d10 - 1,2 is first, 3,4 is second, 5,6 is third option on the list, etc. etc.")
 
-//CASE 2 - Solvable with multiple die of the same kind (blends 1a, solvable with one die)
+//CASE 2 - Solvable with multiple die of the same kind (blends with case - "solvable with one die")
 var diceType = [20, 12, 10, 8, 6, 4];
 for (j = 0; j < diceType.length; j++) {
   for (i = 0; i < 10; i++) {
@@ -56,11 +49,11 @@ for (j = 0; j < diceType.length; j++) {
   }
 }
 
-//CASE 3a - Solvable with prod.arithmeticals of three different dice
+//CASE 3a - Solvable with prod.arithmeticals of two different dice
 for (fD = 0; fD < diceType.length; fD++) {
   for (sD = 0; sD < diceType.length; sD++) {
       if (tot == diceType[fD] * diceType[sD]) {
-        console.log("3a) Roll a d" + diceType[fD] + diceType[sD]);
+        console.log("3a) Roll a d" + diceType[fD] + "·" + diceType[sD]);
     }
   }
 }
@@ -70,7 +63,7 @@ for (fD = 0; fD < diceType.length; fD++) {
   for (sD = 0; sD < diceType.length; sD++) {
     for (tD = 0; tD < diceType.length; tD++) {
       if (tot == diceType[fD] * diceType[sD] * diceType[tD]) {
-        console.log("3b) Roll a d" + diceType[fD] + diceType[sD] + diceType[tD]);
+        console.log("3b) Roll a d" + diceType[fD]  + "·" + diceType[sD] + "·" + diceType[tD]);
       }
     }
   }
@@ -89,12 +82,21 @@ function GCD(a, b) {
   return gcd;
 }
 
+/*
+tests bad for cases like
+24 - should have 2d8+1d10
+18 - should have 2d6+1d8
+35 - should have 3d10+1d8
+38 - should have 3d10+2d6
+etc.
+*/
+
 for (i = 0; i < diceType.length; i++) {
   for (j = 0; j < diceType.length; j++) {
 	
     diceOneCoeff[i] = GCD(tot, diceType[i]);		
     var chunk1 = diceOneCoeff[i] * diceType[i]; 
-    totRemainder = tot - chunk1 + diceOneCoeff[i];
+    totRemainder = tot - chunk1 + diceOneCoeff[i] + 1; 
 
     diceTwoCoeff[j] = GCD(totRemainder, dicePrime[j]);
     var chunk2 = diceTwoCoeff[j] * dicePrime[j];
