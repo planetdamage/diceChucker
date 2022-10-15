@@ -60,7 +60,7 @@ for (j = 0; j < diceType.length; j++) {
 for (fD = 0; fD < diceType.length; fD++) {
   for (sD = 0; sD < diceType.length; sD++) {
       if (tot == diceType[fD] * diceType[sD]) {
-        console.log("3b) Roll a d" + diceType[fD] + diceType[sD]);
+        console.log("3a) Roll a d" + diceType[fD] + diceType[sD]);
     }
   }
 }
@@ -94,7 +94,7 @@ for (i = 0; i < diceType.length; i++) {
 	
     diceOneCoeff[i] = GCD(tot, diceType[i]);		
     var chunk1 = diceOneCoeff[i] * diceType[i]; 
-    totRemainder = tot - chunk1 + diceOneCoeff[i]-1;
+    totRemainder = tot - chunk1 + diceOneCoeff[i];
 
     diceTwoCoeff[j] = GCD(totRemainder, dicePrime[j]);
     var chunk2 = diceTwoCoeff[j] * dicePrime[j];
